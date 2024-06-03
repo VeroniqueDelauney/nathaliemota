@@ -8,17 +8,23 @@
  *
  * @package nathaliemota
  */
-
 ?>
+</div>
 
-	<footerclass="site-footer">
+
+	<footer class="site-footer">
             <div>
-                  Footer content comes here
+                  <!-- Nouvelle zone de menu -->
+                  <?php wp_nav_menu( array( 'theme_location' => 'footer-menu', 'container_class' => 'footer' ) ); ?>
             </div>
 	</footer>
-</div>
+
 
 <?php wp_footer(); ?>
 
 </body>
+
+<!-- Appel de la modal -->
+<?php get_template_part( 'templates/modal' ); ?>
+
 </html>
