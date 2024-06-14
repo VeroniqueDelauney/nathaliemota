@@ -1,43 +1,21 @@
-<?php
-/**
- * The template for displaying all single posts
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
- * @package nathaliemota
- */
-
-get_header();
-?>
-
-	<main id="primary" class="site-main">
-
-		<?php get_the_title(); ?>
-		<?php the_content(); ?>
-
-		<?php
-		while ( have_posts() ) :
-			the_post();
-
-			get_template_part( 'template-parts/content', get_post_type() );
-
-			the_post_navigation(
-				array(
-					'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'foce' ) . '</span> <span class="nav-title">%title</span>',
-					'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'foce' ) . '</span> <span class="nav-title">%title</span>',
-				)
-			);
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
-
-<?php
-// get_sidebar();
-get_footer();
+<?php get_header(); ?>
+<div class="main single">
+<?php if (have_posts()) : ?>
+<?php while (have_posts()) : the_post(); ?>
+<div class="post">
+<h1 class="post-title"><?php the_title(); ?></h1>
+<p class="post-info">
+Posté le <?php the_date(); ?> dans <?php the_category(', '); ?> par <?php the_author(); ?>.
+</p>
+<div class="post-content">
+<?php the_content(); ?>
+</div>
+<div class="post-comments">
+<?php comments_template(); ?>
+</div>
+</div>
+<?php endwhile; ?>
+<?php endif; ?>
+</div>
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>

@@ -35,7 +35,9 @@
 
     <!-- Affichage de la photo -->
     <div class="photo">
-        <img src="<?php the_field('Photo') ?>">
+        <a href="" title="Voir la photo">
+            <img src="<?php the_field('Photo') ?>">
+        </a>
     </div>    
 
     <?php

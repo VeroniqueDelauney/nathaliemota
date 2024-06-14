@@ -15,12 +15,8 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+	<main id="primary" class="site-main">	
 
-	<!-- Call template of list of photos --VD -->
-	<?php 
-	include('templates/photo_block.php');
-	?>
 	<?php get_the_title(); ?>
 	<?php the_content(); ?>
 

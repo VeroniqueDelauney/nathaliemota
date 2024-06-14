@@ -3,15 +3,18 @@
 // On définit la version du thème
 $assets_version = wp_get_theme()['Version'];
 define('ASSETS_VERSION', $assets_version);
+include "ajax.php";
+
 
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
 function theme_enqueue_styles() {
     wp_enqueue_style( 'main-style', get_stylesheet_directory_uri() . '/assets/css/theme.css', [], ASSETS_VERSION ); // get_stylesheet_directory_uri => thème enfant
-    wp_enqueue_script( 'app-script', get_stylesheet_directory_uri() . '/assets/js/app_js.js', [], ASSETS_VERSION );
-    wp_localize_script('app-script', 'app_js', array('ajax_url' => admin_url('admin-ajax.php')));
+    wp_enqueue_script( 'app-script', get_stylesheet_directory_uri() . '/assets/js/app_js.js', ["jquery"], ASSETS_VERSION );
+    wp_localize_script('app-script', 'theme_data', [
+		'ajaxurl' 					=> admin_url( 'admin-ajax.php' ),		
+		"is_logged_in"				=> (is_user_logged_in())
+	]);
 }
-
-
 
 // Create new menu zones -- VD
 function register_menus() {
@@ -101,17 +104,32 @@ add_action( 'init', 'nathaliemota_register_post_types' ); // Le hook init lance 
 
 
 
-// Call one photograph for home page hero
-function nathaliemota_request_heroPhoto() {
-    $args = array( 'post_type' => 'photos', 'posts_per_page' => 1 );
-    $query = new WP_Query($args);
+
+
+
+// On affiche les photos suivantes sur la page d'accueil
+function cookinfamily_request_recettes() {
+    $args = array( 'post_type' => 'photos', 'posts_per_page' => 4 ); $query = new WP_Query($args);
     if($query->have_posts()) {
-        $response = $query;
+    $response = $query;
     } else {
-        $response = false;
+    $response = false;
     }    
     wp_send_json($response);
     wp_die();
 }
-add_action( 'wp_ajax_request_recettes', 'nathaliemota_request_heroPhoto' );
-add_action( 'wp_ajax_nopriv_request_recettes', 'nathaliemota_request_heroPhoto' );
+add_action( 'wp_ajax_request_recettes', 'cookinfamily_request_recettes' );
+add_action( 'wp_ajax_nopriv_request_recettes', 'cookinfamily_request_recettes' );
+
+
+
+
+// Retourne un tableau des termes d'une taxo 'taxo_slug' associés à un post 'post_id'
+function get_terms_of_posts($post_id, $taxo_slug) {
+    $retour = [];
+    $terms = get_the_terms($post_id, $taxo_slug);
+    foreach($terms as $term) {
+        $retour[] = $term->name;
+    }
+    return $retour;
+}

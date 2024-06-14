@@ -86,6 +86,10 @@ h1 {
     margin: 2em 0
 }
 
+button {
+    border: none
+}
+
 .btn {
     &.btn-default {
         background: $greyLight;
@@ -128,7 +132,6 @@ h1 {
     }    
 }
 
-
 .photoTop {
     height: 962px;
     display: flex;
@@ -144,7 +147,6 @@ h1 {
     .text {
         font-family: 'SpaceMono-BoldItalic';
         text-transform: uppercase;
-        color: $white !important;
         font-size: 7em;
         display: block;
         z-index: 100;
@@ -153,6 +155,9 @@ h1 {
         left: 50%;
         width: 100%;
         transform: translate(-50%, -50%);
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: $white;
     }
 }
 
@@ -184,25 +189,245 @@ h1 {
     }
 }
 
-.photos {
+.photos, .post {
     width:80%;
     margin: 2em auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 1em;
+    justify-content: space-between;
+
+    img {
+        object-fit: cover;
+        width:100%;
+        height: 100%;
+        z-index: 50;
+        &:hover {
+            opacity:0.5;
+            background-color: black;
+        }        
+            
+    }        
+}
+
+.photos {     
+    gap: 1em;   
     .photo {
+        position: relative;
         width: 49%;
         height: 495px;
-        overflow: hidden;
-        img {
-            object-fit: cover;
-            width:100%;
-            height: 100%;;
+        overflow: hidden;   
+        z-index: 100;
+
+        // Black overlay
+        &:after {
+            content:'\A';
+            position:absolute;
+            width:100%; height:100%;
+            top:0; left:0;
+            background:rgba(0,0,0,0.6);
+            opacity:0;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+        }
+        &:hover:after {
+            opacity:1;
+        }
+
+        .enlarge {
+            display: none;
+        }
+        svg {
+            color: $white !important
+        }
+        &:hover {
+            .info {
+                padding: 1em;
+                color: $white !important;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;                         
+                // position: absolute;
+                // left: 0;
+                // bottom: 0;
+                width: 95%;
+                height: 2em;
+                z-index: 200;
+                text-transform: uppercase;
+                div {
+                    width: 40%;
+                    align-self: flex-end;
+                    &:last-child {
+                        text-align: right;
+                    }
+                    a {
+                        color: $white;
+                        text-decoration: none;
+                    }
+                }
+            }
+            .eye {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                display: block;
+                margin: auto;
+                width: 6em;
+                height: 6em;
+                &:hover {
+                    cursor: pointer;
+                    background: none;
+                    opacity: 1
+                }
+            }
+            .enlarge {
+                width: 2em;
+                height: 2em;
+                display: block;
+                position: absolute;
+                top: 1em;
+                right: 1em;
+                z-index: 200;
+            }
+        }      
+    }
+    &.marginBottom {
+        margin-bottom: 8em;
+    }
+}
+
+.post {
+    padding-top:2em;
+    margin-bottom: 0;
+    .col {
+        width: 49%;
+        align-self: flex-end;
+        &:first-child {
+            border-bottom: 1px solid $black;
+            padding-bottom: 2em
+        }
+        h1.post-title {
+            font-family: SpaceMono-Italic;
+            font-size: 3em;
+            text-transform: uppercase;
+            display: block;
+            visibility: visible;
+        }
+        p {
+            text-transform: uppercase;
         }
     }
 }
+
+.post_contact {
+    display: flex;
+    width: 100%;
+    gap: 6em;
+    flex-direction: row;
+    margin: 0 auto 3em auto;
+    height: 118px;
+    align-items: center;
+    border-bottom: 1px solid $black;
+}
+
+.more {
+    width: 80%;
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-size: 1.1em;
+}
+
+
+
+// Lightbox
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    opacity: 1;
+    overflow: auto;
+    animation: lightboxIn 0.5s;
+
+    .lightbox_next, .lightbox_prev {
+        position: fixed;
+        z-index: 110;
+        cursor: pointer;
+        transition: 0.5s;
+        top: 0;
+        height: 100%;
+        opacity: 1;
+    }
+
+    .lightbox_next {
+        background: url(img/fleche_next.svg) center center / 16px 28px no-repeat;
+        width: 100px;
+        height: 20px;
+        position: right;
+    }
+
+    .lightbox_prev {
+        border: none;
+        background: url(img/fleche_prev.svg) center center / 16px 28px no-repeat;
+        width: 100px;
+        height: 20px;
+        position: left
+    }
+
+    .lightbox_close {
+        width: 15px;
+        height: 15px;
+        background: lime;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        opacity: 0.5;
+        transition: opacity 0.5s;
+        .lightbox_close:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+}
+
+.lightbox_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width:600px;
+    height:600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //min-height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    z-index: 200;
+    img {
+        max-width: 100%;
+        height: auto;
+        animation: lightboxIn 0.5s;
+    }
+  }
+
+  @keyframes lightboxIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+  }
+
+
+
+
+
+
+
+
 
 .header, .footer {
     ul {
@@ -537,7 +762,17 @@ h1 {
 
 
 
-
+    .filtres {
+        width:80%;
+        margin: 2em auto 0 auto;
+        flex-direction: column;
+        div, div:last-child, select {
+            width:100%
+        }
+        select {
+            margin:0.5em 0;
+        }
+    }
 
     
 

@@ -7,13 +7,12 @@
 	include('templates/photo_block.php');
 	?>
 
-
 	<?php get_the_title(); ?>
 	<!-- <?php the_content(); ?> -->
 
 	<?php
-	// Templates list of photos -- VD
-	include('templates/photos_list.php');
+	// On appelle la page archive-photos.php qui contient le CPT "photos" -- VD
+	include('archive-photos.php');
 	?>
 
 	</main><!-- #main -->
