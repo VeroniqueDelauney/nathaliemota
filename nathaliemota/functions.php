@@ -107,23 +107,6 @@ add_action( 'init', 'nathaliemota_register_post_types' ); // Le hook init lance 
 
 
 
-// On affiche les photos suivantes sur la page d'accueil
-function cookinfamily_request_recettes() {
-    $args = array( 'post_type' => 'photos', 'posts_per_page' => 4 ); $query = new WP_Query($args);
-    if($query->have_posts()) {
-    $response = $query;
-    } else {
-    $response = false;
-    }    
-    wp_send_json($response);
-    wp_die();
-}
-add_action( 'wp_ajax_request_recettes', 'cookinfamily_request_recettes' );
-add_action( 'wp_ajax_nopriv_request_recettes', 'cookinfamily_request_recettes' );
-
-
-
-
 // Retourne un tableau des termes d'une taxo 'taxo_slug' associés à un post 'post_id'
 function get_terms_of_posts($post_id, $taxo_slug) {
     $retour = [];

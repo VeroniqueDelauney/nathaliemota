@@ -78,7 +78,11 @@ body {
 }
 
 h1 { 
-    display: none;
+    // display: none;
+    // &#visible {
+    //     display: block !important;
+    //     color: $black !important
+    // }
 }
 
 .center {
@@ -120,8 +124,8 @@ button {
 }
 
 #primary {
-    width: 100%;
-    margin: 0 auto;
+    width: 80%;
+    margin: 5em auto;
     padding: 0 0 8em 0;
     .photoTop {
         display: flex;
@@ -129,8 +133,14 @@ button {
             object-fit: cover;
             width: 99vw
         }
-    }    
+    }   
+    &.home {
+        margin-top: 0;
+        width: 100%
+    } 
 }
+
+ 
 
 .photoTop {
     height: 962px;
@@ -189,7 +199,7 @@ button {
     }
 }
 
-.photos, .post {
+.photos, .photosNew, .post {
     width:80%;
     margin: 2em auto;
     display: flex;
@@ -208,6 +218,12 @@ button {
         }        
             
     }        
+}
+
+.photosNew {
+    width: 100%;
+    gap: 1em;
+    margin-top:0
 }
 
 .photos {     
@@ -247,13 +263,14 @@ button {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;                         
-                // position: absolute;
-                // left: 0;
-                // bottom: 0;
+                position: absolute;
+                left: 0;
+                bottom: 0;
                 width: 95%;
                 height: 2em;
                 z-index: 200;
                 text-transform: uppercase;
+                color: $white !important;
                 div {
                     width: 40%;
                     align-self: flex-end;
@@ -261,7 +278,7 @@ button {
                         text-align: right;
                     }
                     a {
-                        color: $white;
+                        color: $white !important;
                         text-decoration: none;
                     }
                 }
@@ -348,36 +365,60 @@ button {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.8);
     z-index: 100;
     opacity: 1;
     overflow: auto;
     animation: lightboxIn 0.5s;
+    img {
+        animation: lightboxIn 0.5s;
+    }
 
     .lightbox_next, .lightbox_prev {
-        position: fixed;
-        z-index: 110;
-        cursor: pointer;
-        transition: 0.5s;
-        top: 0;
-        height: 100%;
-        opacity: 1;
+        // position: fixed;
+        // z-index: 110;
+        // cursor: pointer;
+        // transition: 0.5s;
+        // top: 0;
+        // height: 100%;
+        // opacity: 1;
     }
 
     .lightbox_next {
-        background: url(img/fleche_next.svg) center center / 16px 28px no-repeat;
-        width: 100px;
-        height: 20px;
-        position: right;
+        background: url(http://nathaliemota.local/wp-content/themes/nathaliemota/assets/img/fleche_next.svg) center center / 100% 100%;
+        width: 150px;
+        height: 100%;
+        top: 0;
+        color:#FFF;
+        position: fixed;
+        right:2em;
+        top: 0;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: 0.5s;
+        &:hover {
+            opacity: 1
+        }
     }
 
     .lightbox_prev {
         border: none;
-        background: url(img/fleche_prev.svg) center center / 16px 28px no-repeat;
-        width: 100px;
-        height: 20px;
-        position: left
+        background: url(http://nathaliemota.local/wp-content/themes/nathaliemota/assets/img/fleche_prev.svg) center center / 100% 100%;
+        width: 150px;
+        height: 100%;
+        top: 0;
+        color:#FFF;
+        position: fixed;
+        top: 0;
+        left: 2em;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: 0.5s;
+        &:hover {
+            opacity: 1
+        }
     }
+
 
     .lightbox_close {
         width: 15px;

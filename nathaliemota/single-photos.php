@@ -50,51 +50,86 @@
     </div>
 </div>
 
-<!-- Vous aimerez aussi -->
-<div class="more">
-    <p>Vous aimerez aussi</p>
-</div>
 
 
+<?php 
+// On récupère le slug du terme de la taxonomie "cats"
+$terms = get_the_terms( $post->ID, 'cats' );
+if ( !empty( $terms ) ){
+    // get the first term
+    $term = array_shift( $terms );
+    $slug = $term->slug;
+}
 
-<!-- Liste des photos -->
-<div class="photos marginBottom">
-
-    <?php 
     // Arguments de ce que l'on souhaite afficher
     $args = array(
         'post_type' => 'photos',
-        'posts_per_page' => 2
+        'posts_per_page' => 2,
+        'post__not_in' => array( $post->ID ),
+        'tax_query' => array(             
+                array(
+                'taxonomy' => 'cats',
+                'field' => 'slug',
+                'terms' => $slug // On sélectionne les photos du terme de taxonomie "cats" récupéré plus haut                
+            ),
+        )
     );
-
-    // Exécution appel WP Query
     $my_query = new WP_Query( $args );
 
-    // Boucle
-    if( $my_query->have_posts() ) : while( $my_query->have_posts() ) : $my_query->the_post();
-    ?>
 
-    <!-- Affichage de la photo -->
-    <div class="photo">
-        <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
-            <img src="<?php the_field('Photo') ?>">			
-        </a>
-    </div>    
+    // Show section title if there are some results
+    if( $my_query->have_posts())
+    {
+        // Vous aimerez aussi
+        echo "<div class='more'><p>Vous aimerez aussi</p></div>";
 
-    <?php
-    endwhile;
-    endif;
+        // Liste des photos
+        echo "<div class='photos marginBottom'>";
 
-    // Réinitialisation de la requête principale (important)
-    wp_reset_postdata();
-    ?>
+        while( $my_query->have_posts() ) : $my_query->the_post();
+        ?>
+            
+            <!-- Affichage de la photo -->
+            <div class="photo">
+                <div class="enlarge">
+                        <a href="<?php echo get_field("picture")["url"]; ?>">
+                            <img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>">
+                        </a>	
+                    </div>
 
-    </div>
-</div>
+                    <!-- Affichage de la photo -->
+                    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
+                        <img src="<?php echo get_field("picture")["url"]; ?>">
+                    </a>	
 
+                    <!-- Affichage de l'icône oeil -->
+                    <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
+                        <img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
+                    </a>
 
+                    <!-- Infos sur le bas de chaque photo -->
+                    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
+                        <div class="info">
+                            <div><?php the_title(); ?></div>
+                            <div>
+                                <?php 
+                                    $terms = get_terms_of_posts(get_the_ID(), 'cats');
+                                    echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
+                                ?>
+                            </div>
+                        </div>
+                    </a>
+            </div>    
 
-<?php endwhile; ?>
-<?php endif; ?>
+        <?php
+        // Réinitialisation de la requête principale (important)
+        wp_reset_postdata();
+        endwhile;
+        echo "</div>";
+    }
+    
+endwhile;
+endif;
+?>
 </div>
 <?php get_footer(); ?>

@@ -1,6 +1,5 @@
 <?php
-
-/**
+/*
  * Allow to call any php function or method.
  */
 add_action('wp_ajax_nathaliemota', 'nathaliemota_ajax_router');
@@ -19,108 +18,46 @@ function nathaliemota_ajax_router(): string
 	$_POST['function']($_POST['data']);
 }
 
+//$currentPage = 1;
 function load_more($args): string {
-    // print_r($args);
-    // die;
-    // Récupérer les photos avec wp_query suivant page courante
-    // Parcourir ces photos et créer le code html correspondant
-    // Retourner ce code html ligne 33
-    // Dans le javascript, injecter ce code html dans la page
-	$return = [
-        
-        'html' => '<p style="border:3px solid black">Hello world !</p>'
-	];
+    //$currentPage = $currentPage + 1; // Do currentPage + 1, because we want to load the next page
+    //  print_r($args);
+    //  die;
 
+    // 1. On définit les arguments pour définir ce que l'on souhaite récupérer : photos qui sont après la page courante
+    $args = array(
+        'post_type' => 'photos',
+        'posts_per_page' => 4,
+        'paged' => $_POST['paged'], // Charge la page suivante
+    );
+
+    //console.log(page);
+    // 2. On exécute la WP Query
+    $my_query = new WP_Query( $args );   
+
+	// $return = [
+    //     'html' => '<p style="border:3px solid black">Hello world !</p>'
+	// ];
+
+    // 3. On lance la boucle
+    if( $my_query->have_posts())
+    {
+        while( $my_query->have_posts() ) : $my_query->the_post();
+            $imgPath = get_field("picture")["url"];
+            //$theTitle = the_title();
+            $return = "<div class='photo'><a href='' class='linkPhoto'><img src='$imgPath'></a></div>";
+        endwhile;
+    }
+    else
+    {
+        $return = ''; // "response" will store the result
+    } 
     wp_send_json($return);
-    //wp_send_json_success( $return );
-
+    
+    // 4. On réinitialise à la requête principale pour que le reste de la page fonctionne correctement
+    wp_reset_postdata();  
+    exit;
 }
-
-// <?php
-// add_action( 'wp_ajax_capitaine_load_comments', 'capitaine_load_comments' );
-// add_action( 'wp_ajax_nopriv_capitaine_load_comments', 'capitaine_load_comments' );
-
-// function capitaine_load_comments() {
-  
-
-//     // On vérifie que l'identifiant a bien été envoyé
-//     if( ! isset( $_POST['postid'] ) ) {
-//     	wp_send_json_error( "L'identifiant de l'article est manquant.", 400 );
-//   	}
-
-//   	// Récupération des données du formulaire
-//   	$post_id = intval( $_POST['postid'] );
-
-//   	// Utilisez sanitize_text_field() pour les chaines de caractères.
-//   	// exemple : 
-//     $name = sanitize_text_field( $_POST['name'] );
-
-//   	// Requête des commentaires
-//   	$comments = get_comments([
-//     	'post_id' => $post_id,
-//     	'status' => 'approve'
-//   	]);
-
-//   	// Préparer le HTML des commentaires
-//   	$html = wp_list_comments([
-//     	'per_page' => -1,
-//     	'avatar_size' => 76,
-//     	'echo' => false,
-//   	], $comments );
-
-//   	// Envoyer les données au navigateur
-// 	wp_send_json_success( $html );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -141,4 +78,3 @@ function nathaliemota_request_heroPhoto() {
 }
 add_action( 'wp_ajax_request_recettes', 'nathaliemota_request_heroPhoto' );
 add_action( 'wp_ajax_nopriv_request_recettes', 'nathaliemota_request_heroPhoto' );
-

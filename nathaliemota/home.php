@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main id="primary" class="site-main">
+<main id="primary" class="site-main home">
 
 	<!-- Call template of list of photos --VD -->
 	<?php 

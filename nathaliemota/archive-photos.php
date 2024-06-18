@@ -15,7 +15,6 @@
     </div>
 </div>
 
-
 <!-- Liste des photos -->
 <div class="photos">
 
@@ -23,36 +22,51 @@
     // Arguments de ce que l'on souhaite afficher
     $args = array(
         'post_type' => 'photos',
-        'posts_per_page' => 8
+        'posts_per_page' => 4,
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'paged' => 1
     );
 
     // Exécution appel WP Query
-    $my_query = new WP_Query( $args );
+    $photographs = new WP_Query( $args );
 
     // Boucle
-    if( $my_query->have_posts() ) : while( $my_query->have_posts() ) : $my_query->the_post();
+    if( $photographs->have_posts() ) : while( $photographs->have_posts() ) : $photographs->the_post();
     ?>
 
     <!-- Affichage de la photo -->
     <div class="photo">
+
+        <!-- Lien vers la lightbox -->
 		<div class="enlarge">
-			<a href="<?php the_field('Photo') ?>">
+			<a href="<?php echo get_field("picture")["url"]; ?>">
 				<img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>">
 			</a>	
 		</div>
-		<a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
+
+        <!-- Affichage de la photo -->
+		<a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
 			<img src="<?php echo get_field("picture")["url"]; ?>">
 		</a>	
-		<!-- <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
-			<img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
-		</a>	 -->
 
-		<!-- <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
+        <!-- Affichage de l'icône oeil -->
+		<a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
+			<img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
+		</a>
+
+        <!-- Infos sur le bas de chaque photo -->
+		<a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
 			<div class="info">
 				<div><?php the_title(); ?></div>
-				<div><?php the_terms( get_the_ID(), 'cats' ); ?></div>
+				<div>
+                    <?php 
+                        $terms = get_terms_of_posts(get_the_ID(), 'cats');
+                        echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
+                    ?>
+                </div>
 			</div>
-		</a> -->
+		</a>
     </div>    
 
     <?php
@@ -63,22 +77,17 @@
     wp_reset_postdata();
     ?>
 
-</div>
+    <!-- Affichage des photos suivantes -->
+    <div class="photosNew">        
+    </div>
 
+</div>
 
 <div class="center">
-	<button class="btn btn-default" id="load-more-photos">
-		Charger plus
-	</button>
-
-    <div class="photos" style="border:5px solid lime">
-        <!-- Affichage des photos suivantes -->
-	</div>
-    
-</div>
-
-
-
+    <button class="btn btn-default" id="load-more-photos">
+        Charger plus
+    </button>
+</center>
 
 
 
@@ -88,15 +97,3 @@
 <?php if( get_comments_number() ): ?>
 
 <?php endif; ?> -->
-
-
-
-<!-- Lightbox -->
-<!-- <div class="lightbox">
-	<button class="lightbox_close">X</button>
-	<button class="lightbox_next">Suivante</button>
-	<button class="lightbox_prev">Précédente</button>
-	<div class="lightbox_container">
-		<img src="http://nathaliemota.local/wp-content/uploads/2024/06/nathalie-13-scaled.jpeg">
-	</div>
-</div> -->
