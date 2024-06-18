@@ -257,20 +257,21 @@ button {
             color: $white !important
         }
         &:hover {
+            .eye, .info {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                z-index: 200;
+                color: $white !important;
+            }
             .info {
                 padding: 1em;
-                color: $white !important;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;                         
-                position: absolute;
-                left: 0;
-                bottom: 0;
                 width: 95%;
                 height: 2em;
-                z-index: 200;
                 text-transform: uppercase;
-                color: $white !important;
                 div {
                     width: 40%;
                     align-self: flex-end;
@@ -284,11 +285,8 @@ button {
                 }
             }
             .eye {
-                position: absolute;
-                left: 0;
                 top: 0;
                 right: 0;
-                bottom: 0;
                 display: block;
                 margin: auto;
                 width: 6em;

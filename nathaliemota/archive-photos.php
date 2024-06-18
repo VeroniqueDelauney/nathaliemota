@@ -33,43 +33,10 @@
 
     // Boucle
     if( $photographs->have_posts() ) : while( $photographs->have_posts() ) : $photographs->the_post();
-    ?>
 
-    <!-- Affichage de la photo -->
-    <div class="photo">
-
-        <!-- Lien vers la lightbox -->
-		<div class="enlarge">
-			<a href="<?php echo get_field("picture")["url"]; ?>">
-				<img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>">
-			</a>	
-		</div>
-
-        <!-- Affichage de la photo -->
-		<a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
-			<img src="<?php echo get_field("picture")["url"]; ?>">
-		</a>	
-
-        <!-- Affichage de l'icône oeil -->
-		<a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
-			<img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
-		</a>
-
-        <!-- Infos sur le bas de chaque photo -->
-		<a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
-			<div class="info">
-				<div><?php the_title(); ?></div>
-				<div>
-                    <?php 
-                        $terms = get_terms_of_posts(get_the_ID(), 'cats');
-                        echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
-                    ?>
-                </div>
-			</div>
-		</a>
-    </div>    
-
-    <?php
+    // On appelle le template bloc_photo.php qui retourne une photo mise en page
+    include('templates/photo_block.php');
+    
     endwhile;
     endif;
 

@@ -1,31 +1,29 @@
-<div class="photoTop">
-
-    <?php 
-    // Arguments de ce que l'on souhaite afficher
-    $args = array(
-        'post_type' => 'photos',
-        'posts_per_page' => 1,
-        'orderby' => 'rand'
-    );
-
-    // Exécution appel WP Query
-    $my_query = new WP_Query( $args );
-
-    // Boucle
-    if( $my_query->have_posts() ) : while( $my_query->have_posts() ) : $my_query->the_post();
-    ?>
+<!-- Affichage de la photo -->
+<div class="photo">
+    <div class="enlarge">
+        <a href="<?php echo get_field("picture")["url"]; ?>">
+            <img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>">
+        </a>	
+    </div>
 
     <!-- Affichage de la photo -->
-    <img src="<?php echo get_field("picture")["url"]; ?>">
+    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
+        <img src="<?php echo get_field("picture")["url"]; ?>">
+    </a>	
 
-    <?php
-    endwhile;
-    endif;
+    <!-- Affichage de l'icône oeil -->
+    <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
+        <img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
 
-    // Réinitialisation de la requête principale (important)
-    wp_reset_postdata();
-    ?>
-
-    <div class="text">Photographe Event</div>
-
-</div>
+        <!-- Infos sur le bas de chaque photo -->
+        <div class="info">
+            <div><?php the_title(); ?></div>
+            <div>
+                <?php 
+                    $terms = get_terms_of_posts(get_the_ID(), 'cats');
+                    echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
+                ?>
+            </div>
+        </div>
+    </a>
+</div>  

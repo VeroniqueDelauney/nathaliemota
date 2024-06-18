@@ -4,7 +4,7 @@
 
 	<!-- Call template of list of photos --VD -->
 	<?php 
-	include('templates/photo_block.php');
+	include('templates/full_banner.php');
 	?>
 
 	<?php get_the_title(); ?>

@@ -43,8 +43,10 @@
             Cette photo vous intéresse ?
         </div>
         <div>
-            <div class="btn btn-default" id="SendBtn">
-                Contact
+            <div class="btn btn-default contact-btn">
+                <a>
+                    Contact
+                </a>
             </div>
         </div>
     </div>
@@ -87,41 +89,10 @@ if ( !empty( $terms ) ){
         echo "<div class='photos marginBottom'>";
 
         while( $my_query->have_posts() ) : $my_query->the_post();
-        ?>
-            
-            <!-- Affichage de la photo -->
-            <div class="photo">
-                <div class="enlarge">
-                        <a href="<?php echo get_field("picture")["url"]; ?>">
-                            <img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>">
-                        </a>	
-                    </div>
 
-                    <!-- Affichage de la photo -->
-                    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
-                        <img src="<?php echo get_field("picture")["url"]; ?>">
-                    </a>	
+        // On appelle le template bloc_photo.php qui retourne une photo mise en page
+        include('templates/photo_block.php');
 
-                    <!-- Affichage de l'icône oeil -->
-                    <a href="<?php the_permalink(); ?>" title="Voir la photo '<?php the_title(); ?>'">
-                        <img src="<?php echo get_template_directory_uri() . '/assets/img/eye-3-64.png'; ?>" class="eye">
-                    </a>
-
-                    <!-- Infos sur le bas de chaque photo -->
-                    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="linkPhoto">
-                        <div class="info">
-                            <div><?php the_title(); ?></div>
-                            <div>
-                                <?php 
-                                    $terms = get_terms_of_posts(get_the_ID(), 'cats');
-                                    echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
-                                ?>
-                            </div>
-                        </div>
-                    </a>
-            </div>    
-
-        <?php
         // Réinitialisation de la requête principale (important)
         wp_reset_postdata();
         endwhile;
