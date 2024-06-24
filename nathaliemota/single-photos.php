@@ -93,9 +93,12 @@ if ( !empty( $terms ) ){
         // On appelle le template bloc_photo.php qui retourne une photo mise en page
         include('templates/photo_block.php');
 
+        
+        endwhile;
+
         // Réinitialisation de la requête principale (important)
         wp_reset_postdata();
-        endwhile;
+
         echo "</div>";
     }
     

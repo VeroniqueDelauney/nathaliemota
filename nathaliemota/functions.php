@@ -1,5 +1,10 @@
 <?php
 
+// Theme paths
+define('THEME_URI', get_template_directory_uri());
+define('THEME_DIR', get_template_directory());
+
+
 // On définit la version du thème
 $assets_version = wp_get_theme()['Version'];
 define('ASSETS_VERSION', $assets_version);
