@@ -184,19 +184,31 @@ window.onload = function(){
                 //$( '#load-more-photos' ).text( 'Chargement...' );
             },
             success: function (retour_json) {
-                if(append_or_replace == 'append') {
-                    $('#picturesContainer').append(retour_json.html_content);                    
+                if(retour_json) {
+                    $('#picturesContainer').append(retour_json.html_content);      
                 }
-                else {
-                    $('#picturesContainer').html(retour_json.html_content);   
-                }
+                // if(append_or_replace == 'append') {
+                //     if(retour_json) {
+                //         $('#picturesContainer').append(retour_json.html_content);      
+                //     }
+                //     else
+                //     {
+                //         alert("Hello");
+                //         $('#LoadMore').hide();
+                //     }                                             
+                // }
+                // else {
+                //     $('#picturesContainer').html(retour_json.html_content);   
+                // }
             },
             error: function (xhr, status, error) {
                 let retour_json = JSON.parse(xhr.responseText);
                 console.log("error");
-                console.log(retour_json);
+                //console.log(retour_json);
             },
-            complete: function (data) {
+            complete: function (retour_json) {
+                //console.log(retour_json.currentPage);
+               //$('#LoadMore').hide();
                 // $( '#load-more-photos' ).text( 'Charger plus' );
             }
         });

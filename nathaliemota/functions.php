@@ -110,6 +110,19 @@ add_action( 'init', 'nathaliemota_register_post_types' ); // Le hook init lance 
 
 
 
+// Retourne les termes d'une taxonomie non-associée à un post_id
+function menuSelectTerms($taxo_slug) {
+    $terms = get_terms( array(
+        'taxonomy' => $taxo_slug,
+        'hide_empty' => true
+    ));        
+    if ( !empty($terms) ) {
+        echo '<option>--------------------------</option>';
+        foreach ( $terms as $term ) {
+            echo '<option>' . $term->name . '</option>';
+        }
+    }
+}
 
 
 // Retourne un tableau des termes d'une taxo 'taxo_slug' associés à un post 'post_id'

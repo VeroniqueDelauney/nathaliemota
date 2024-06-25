@@ -2,7 +2,7 @@
 <div class="filtres">
     <div>
         <select list name="categories">
-            <option>Catégories</option>
+            <option>Catégories</option>            
         </select>
         <select list name="formats">
             <option>Formats</option>
