@@ -169,7 +169,7 @@ window.onload = function(){
 
         current_category = document.querySelector("select[name='categories']").value;
         current_format = document.querySelector("select[name='formats']").value;
-        current_sort = document.querySelector("select[name='tri']").value;
+        current_sort = document.querySelector("select[name='tri']").value;               
 
         $.ajax({
             type: "POST",
@@ -183,23 +183,27 @@ window.onload = function(){
             beforeSend : function ( xhr ) {               
                 //$( '#load-more-photos' ).text( 'Chargement...' );
             },
-            success: function (retour_json) {
-                if(retour_json) {
-                    $('#picturesContainer').append(retour_json.html_content);      
+            success: function (retour_json) {          
+                if(append_or_replace == 'append') {
+                    if(retour_json) {
+                        $('#picturesContainer').append(retour_json.html_content); 
+                        if(currentPage == 4) { // On cache le bouton "Charger plus" qd il n'y a plus de photos
+                            $('#LoadMore').hide();
+                        }     
+                    }
+                    // if(retour_json) {
+                    //     $('#picturesContainer').append(retour_json.html_content);      
+                    // }
+                    // else
+                    // {
+                    //     alert("Hello");
+                    //     $('#LoadMore').hide();
+                    // }                                             
                 }
-                // if(append_or_replace == 'append') {
-                //     if(retour_json) {
-                //         $('#picturesContainer').append(retour_json.html_content);      
-                //     }
-                //     else
-                //     {
-                //         alert("Hello");
-                //         $('#LoadMore').hide();
-                //     }                                             
-                // }
-                // else {
-                //     $('#picturesContainer').html(retour_json.html_content);   
-                // }
+                else {
+                    //alert("replace");
+                    $('#picturesContainer').html(retour_json.html_content);   
+                }
             },
             error: function (xhr, status, error) {
                 let retour_json = JSON.parse(xhr.responseText);

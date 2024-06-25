@@ -110,7 +110,7 @@ add_action( 'init', 'nathaliemota_register_post_types' ); // Le hook init lance 
 
 
 
-// Retourne les termes d'une taxonomie non-associée à un post_id
+// Retourne les termes d'une taxonomie non-associée à un post_id => Menu déroulants page d'accueil
 function menuSelectTerms($taxo_slug) {
     $terms = get_terms( array(
         'taxonomy' => $taxo_slug,
@@ -119,6 +119,7 @@ function menuSelectTerms($taxo_slug) {
     if ( !empty($terms) ) {
         echo '<option>--------------------------</option>';
         foreach ( $terms as $term ) {
+            //echo '<option value=' . $term->slug .'>' . $term->name . '</option>';
             echo '<option>' . $term->name . '</option>';
         }
     }

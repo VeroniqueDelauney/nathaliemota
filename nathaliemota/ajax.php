@@ -13,7 +13,6 @@ function nathaliemota_ajax_router(): string
     ])) {
         die("Cheater :)");
     }
-
 	$_POST['function']($_POST['data']);
 }
 
@@ -25,15 +24,37 @@ function search_picture($args): string {
     ];
     $args = parse_str($args, $params);
 
-    // 1. On définit les arguments pour définir ce que l'on souhaite récupérer : photos qui sont après la page courante
-    $query_args = array(
-        'post_type' => 'photos',
-        'posts_per_page' => 2,
-        'paged' => $params['page'], // Charge la page suivante
-        'cur_page' => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
-		//'max_page' => $wp_query->max_num_pages,
-    );
 
+
+    // 1. On définit les arguments pour définir ce que l'on souhaite récupérer : photos qui sont après la page courante
+    if(!empty($_POST['category'])) {
+        $query_args = array(
+            array(
+                'post_type' => 'photos',
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'cats',
+                        //'terms' => $params['category'],
+                        'terms' => 'Mariage',
+                        'field' => 'slug',
+                        'include_children' => true,
+                        'operator' => 'IN',
+                    )
+                )
+            )
+        );        
+    }
+    else
+    {
+        $query_args = array(
+            'post_type' => 'photos',
+            'posts_per_page' => 4,
+            'paged' => $params['page'], // Charge la page suivante
+            'cur_page' => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,            
+            //'max_page' => max_num_pages,
+        );
+    }
     // 2. On exécute la WP Query
     $my_query = new WP_Query( $query_args );   
 
