@@ -119,8 +119,8 @@ function menuSelectTerms($taxo_slug) {
     if ( !empty($terms) ) {
         echo '<option>--------------------------</option>';
         foreach ( $terms as $term ) {
-            //echo '<option value=' . $term->slug .'>' . $term->name . '</option>';
-            echo '<option>' . $term->name . '</option>';
+            echo '<option value=' . $term->slug .'>' . $term->name . '</option>';
+            //echo '<option>' . $term->name . '</option>';
         }
     }
 }

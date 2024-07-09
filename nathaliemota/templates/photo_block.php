@@ -1,14 +1,22 @@
 <!-- Affichage de la photo -->
 <div class="photo">
 
+    <?php
+        $terms = get_terms_of_posts(get_the_ID(), 'cats');
+    ?>
+
     <div class="enlarge">
-        <a href="<?php echo get_field("picture")["url"]; ?>">
-            <img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>" class="linkPhoto">
-        </a>	
+        <img src="<?php echo get_template_directory_uri() . '/assets/img/expand-icon.svg'; ?>" class="linkPhoto" 
+            data-category="<?php echo implode(" , ", $terms); ?>"
+            data-position="<?php echo $photo_position; ?>" 
+            data-image="<?php echo get_field("picture")["url"]; ?>" 
+            data-reference="<?php echo get_field("reference"); ?>" 
+            data-title="<?php the_title(); ?>"
+        />        
     </div>
 
     <!-- Affichage de la photo -->
-    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'">
+    <a href="<?php echo get_field("picture")["url"]; ?>" title="Voir la photo '<?php the_title(); ?>'" class="zoom">
         <img src="<?php echo get_field("picture")["url"]; ?>">
     </a>	
 
@@ -21,9 +29,8 @@
             <div><?php the_title(); ?></div>
             <div>
                 <?php 
-                    $terms = get_terms_of_posts(get_the_ID(), 'cats');
-                    echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
-                ?>
+                    echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules                    
+                ?>               
             </div>
         </div>
     </a>

@@ -2,14 +2,14 @@
 <div class="filtres">
     <div>
         <select list name="categories" class="form_filter">
-            <option>Catégories</option>            
+            <option value="">Catégories</option>            
             <?php 
             menuSelectTerms('cats'); 
             ?>            
         </select>
     
         <select list name="formats" class="form_filter">
-            <option>Formats</option>
+            <option value="">Formats</option>
             <?php 
             menuSelectTerms('formats'); 
             ?>  
@@ -17,10 +17,10 @@
     </div>
     <div>
         <select list name="tri" class="form_filter">
-            <option>Trier par</option>
-            <option>--------------------------</option>
-            <option>Photos récentes</option>
-            <option>Photos anciennes</option>
+            <option value="">Trier par</option>
+            <option value="">--------------------------</option>
+            <option value="desc">A partir des plus récentes</option>
+            <option value="asc">A partir des plus anciennes</option>
         </select>
     </div>
 </div>
@@ -32,7 +32,7 @@
     // Arguments de ce que l'on souhaite afficher
     $args = array(
         'post_type' => 'photos',
-        'posts_per_page' => 4,
+        'posts_per_page' => 8,
         'orderby' => 'date',
         'order' => 'DESC',
         'paged' => 1
@@ -40,14 +40,16 @@
     $photographs = new WP_Query( $args ); // Exécution appel WP Query
 
     //$nbre_de_photos_total = $photographs->found_posts;
-    //echo $photographs->max_num_pages; // => Retourne 4
+    $max_num_pages = $photographs->max_num_pages; // => Retourne 4
 
+    $photo_position = 1;
     // Boucle
     if( $photographs->have_posts() ) : while( $photographs->have_posts() ) : $photographs->the_post();
 
     // Appel du template "bloc_photo.php" qui retourne une photo mise en page
     include('templates/photo_block.php');
 
+    $photo_position ++;
     endwhile;
     endif; 
 
@@ -55,6 +57,9 @@
     wp_reset_postdata();
     ?>
 </div>
+
+<!-- On passe le nombre de pages maxi -->
+<input type="hidden" name="maxNbOfPages" value="<?php echo $max_num_pages ?>">
 
 <div class="center" id="LoadMore">
     <button class="btn btn-default" id="load-more-photos">
@@ -70,3 +75,23 @@
 <?php if( get_comments_number() ): ?>
 
 <?php endif; ?> -->
+
+
+<div class="lightbox">
+    <div class="lightbox_prev" title="Photo précédente"></div>
+    <div class="lightbox_center">
+        <div class="photo">
+            <img src="http://nathaliemota.local/wp-content/uploads/2024/06/nathalie-15-scaled.jpeg" class="jpeg" alt="">
+        </div>
+        <div class="lightbox_info">
+            <div class="col1">
+                <!-- REFERENCE DE LA PHOTO -->
+            </div>
+            <div class="col2">
+                <!-- CATEGORIE -->
+            </div>
+        </div>
+    </div>
+    <div class="lightbox_next" title="Photo suivante"></div>
+    <div class="lightbox_close" alt="Fermer"></div>
+</div>

@@ -44,9 +44,7 @@
         </div>
         <div>
             <div class="btn btn-default contact-btn">
-                <a>
-                    Contact
-                </a>
+                <a>Contact</a>
             </div>
         </div>
     </div>
