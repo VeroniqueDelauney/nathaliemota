@@ -1,25 +1,34 @@
 <?php
 
 // Theme paths
-define('THEME_URI', get_template_directory_uri());
-define('THEME_DIR', get_template_directory());
+define('THEME_URI', get_template_directory_uri()); // url vers le thème 
+define('THEME_DIR', get_template_directory()); // Chemin absolu
 
 
 // On définit la version du thème
-$assets_version = wp_get_theme()['Version'];
+$assets_version = wp_get_theme()['Version']; // Récupère les infos du fichier style.css
 define('ASSETS_VERSION', $assets_version);
 include "ajax.php";
+//include "test-ajax.php";
 
 
-add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' ); // Ajoute les scripts et les styles
 function theme_enqueue_styles() {
-    wp_enqueue_style( 'main-style', get_stylesheet_directory_uri() . '/assets/css/theme.css', [], ASSETS_VERSION ); // get_stylesheet_directory_uri => thème enfant
-    wp_enqueue_script( 'app-script', get_stylesheet_directory_uri() . '/assets/js/app_js.js', ["jquery"], ASSETS_VERSION );
-    wp_localize_script('app-script', 'theme_data', [
+    wp_enqueue_style( 'main-style', THEME_URI . '/assets/css/theme.css', [], ASSETS_VERSION ); // get_stylesheet_directory_uri => thème enfant
+    wp_enqueue_script( 'app-script', THEME_URI . '/assets/js/app_js.js', ["jquery"], ASSETS_VERSION ); // get script qui est dépendant de jquery
+    wp_localize_script('app-script', 'theme_data', [ // Pour passer les variables directement au javascript
 		'ajaxurl' 					=> admin_url( 'admin-ajax.php' ),		
-		"is_logged_in"				=> (is_user_logged_in())
+		'is_logged_in'				=> (is_user_logged_in())
 	]);
 }
+
+add_action( 'after_setup_theme', 'theme_functions' );
+function theme_functions() {
+
+    add_theme_support( 'title-tag' );
+
+}
+
 
 // Create new menu zones -- VD
 function register_menus() {

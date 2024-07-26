@@ -5,6 +5,8 @@
 add_action('wp_ajax_nathaliemota', 'nathaliemota_ajax_router');
 add_action('wp_ajax_nopriv_nathaliemota', 'nathaliemota_ajax_router');
 
+
+
 function nathaliemota_ajax_router(): string
 {	
     // Vérification de sécurité
@@ -15,6 +17,7 @@ function nathaliemota_ajax_router(): string
     }
 	$_POST['function']($_POST['data']); 
 }
+
 
 //$currentPage = 1;
 function search_picture($args): string {
@@ -73,7 +76,7 @@ function search_picture($args): string {
     $max_page = $my_query->max_num_pages;
 
     // On a atteint la dernière page
-    if($max_page == $params["page"]) {
+    if($max_page == $params["page"] || !$my_query->have_posts()) {
         $json_returned["has_more_pictures"] = 0;        
     }
     //echo($my_query->max_num_pages);

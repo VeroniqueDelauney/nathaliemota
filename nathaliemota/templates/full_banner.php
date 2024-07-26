@@ -16,7 +16,7 @@
     ?>
 
     <!-- Affichage de la photo -->
-    <img src="<?php echo get_field("picture")["url"]; ?>">
+    <img src="<?php echo get_field("picture")["url"]; ?>" alt="<?php echo the_title(); ?>">
 
     <?php
     endwhile;

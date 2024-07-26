@@ -8,7 +8,6 @@
  *
  * @package nathaliemota
  */
-
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -16,7 +15,6 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-
 	<?php wp_head(); ?>
 </head>
 
@@ -28,7 +26,7 @@
 		<div class="topnav">
 			<div class="logo">
 				<a href="/" title="Page d'accueil du site de Nathalie Mota">
-					<img src="<?php echo get_stylesheet_directory_uri() . '/assets/img/logo.png'; ?> " alt="Nathalie Mota" />
+					<img src="<?php echo THEME_URI . '/assets/img/logo.webp'; ?> " alt="Nathalie Mota" />
 				</a>
 			</div>
 			<div class="links">
@@ -39,7 +37,12 @@
 				</div>
 
 				<div class="menu-hamburger">
-					<div class="hamburger-icon">☰</div>
+					<div class="hamburger-icon">
+						<img src="<?php echo THEME_URI . '/assets/img/hamburger.webp'; ?> " alt="Voir le menu" />
+					</div>
+					<div class="hamburger-icon-close">
+						<img src="<?php echo THEME_URI . '/assets/img/stateopen.webp'; ?> " alt="Fermer le menu" />
+					</div>
 				</div>
 
 			</div>

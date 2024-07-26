@@ -1,14 +1,14 @@
 <!-- Formulaire de filtre -->
 <div class="filtres">
     <div>
-        <select list name="categories" class="form_filter">
+        <select list name="categories" class="form_filter" aria-label="Catégories de photos">
             <option value="">Catégories</option>            
             <?php 
             menuSelectTerms('cats'); 
             ?>            
         </select>
     
-        <select list name="formats" class="form_filter">
+        <select list name="formats" class="form_filter" aria-label="Formats de photos">
             <option value="">Formats</option>
             <?php 
             menuSelectTerms('formats'); 
@@ -16,7 +16,7 @@
         </select>
     </div>
     <div>
-        <select list name="tri" class="form_filter">
+        <select list name="tri" class="form_filter" aria-label="Trier les photos par ordre chronologique">
             <option value="">Trier par</option>
             <option value="">--------------------------</option>
             <option value="desc">A partir des plus récentes</option>
@@ -39,7 +39,6 @@
     );    
     $photographs = new WP_Query( $args ); // Exécution appel WP Query
 
-    //$nbre_de_photos_total = $photographs->found_posts;
     $max_num_pages = $photographs->max_num_pages; // => Retourne 4
 
     $photo_position = 1;
@@ -62,10 +61,10 @@
 <input type="hidden" name="maxNbOfPages" value="<?php echo $max_num_pages ?>">
 
 <div class="center" id="LoadMore">
-    <button class="btn btn-default" id="load-more-photos">
+    <button class="btn btn-default" id="load-more-photos" title="Charger plus de photos">
         Charger plus
     </button>
-</center>
+</div>
 
 
 
@@ -81,7 +80,7 @@
     <div class="lightbox_prev" title="Photo précédente"></div>
     <div class="lightbox_center">
         <div class="photo">
-            <img src="http://nathaliemota.local/wp-content/uploads/2024/06/nathalie-15-scaled.jpeg" class="jpeg" alt="">
+            <img src="" class="jpeg" alt="">
         </div>
         <div class="lightbox_info">
             <div class="col1">
