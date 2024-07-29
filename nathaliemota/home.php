@@ -2,19 +2,18 @@
 
 <main id="primary" class="site-main home">
 
-	<!-- Call template of list of photos --VD -->
+	<!-- Affichage de la photo aléatoire du hero -->
 	<?php 
 	include('templates/full_banner.php');
 	?>
 
 	<?php get_the_title(); ?>
-	<!-- <?php the_content(); ?> -->
 
 	<?php
-	// On appelle la page archive-photos.php qui contient le CPT "photos" -- VD
+	// Affichage du catalogue de photos qui contient le CPT "photos"
 	include('archive-photos.php');
 	?>
 
-	</main><!-- #main -->
+</main>
 
 <?php get_footer(); ?>

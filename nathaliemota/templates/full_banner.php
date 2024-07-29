@@ -1,7 +1,7 @@
 <div class="photoTop">
 
     <?php 
-    // Arguments de ce que l'on souhaite afficher
+    // Arguments de ce que l'on souhaite afficher en mode aléatoire
     $args = array(
         'post_type' => 'photos',
         'posts_per_page' => 1,
@@ -22,10 +22,11 @@
     endwhile;
     endif;
 
-    // Réinitialisation de la requête principale (important)
+    // Réinitialisation de la requête principale
     wp_reset_postdata();
     ?>
 
+    <!-- Affichage du titre au dessus de la photo -->
     <div class="text">Photographe Event</div>
 
 </div>

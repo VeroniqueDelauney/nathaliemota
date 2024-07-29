@@ -39,7 +39,7 @@
     );    
     $photographs = new WP_Query( $args ); // Exécution appel WP Query
 
-    $max_num_pages = $photographs->max_num_pages; // => Retourne 4
+    $max_num_pages = $photographs->max_num_pages;
 
     $photo_position = 1;
     // Boucle
@@ -52,7 +52,7 @@
     endwhile;
     endif; 
 
-    // Réinitialisation de la requête principale (important)
+    // Réinitialisation de la requête principale
     wp_reset_postdata();
     ?>
 </div>
@@ -65,16 +65,6 @@
         Charger plus
     </button>
 </div>
-
-
-
-<!-- 
-<h2>Il y a <?php comments_number(); ?></h2>
-
-<?php if( get_comments_number() ): ?>
-
-<?php endif; ?> -->
-
 
 <div class="lightbox">
     <div class="lightbox_prev" title="Photo précédente"></div>

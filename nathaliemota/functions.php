@@ -64,7 +64,6 @@ function nathaliemota_register_post_types() {
         'has_archive' => true,
         'show_ui' => true,
         'supports' => array('title', 'thumbnail'),
-        // 'supports' => array( 'title', 'editor','thumbnail' ),
         'menu_position' => 5, 
         'menu_icon' => 'dashicons-camera',
         'meta_key' => 'Photo', // nom du champ personnalisé
@@ -88,10 +87,10 @@ function nathaliemota_register_post_types() {
         'show_admin_column' => true,
         'show_in_nav_menus' => true,
         'show_tagcloud' => true,
-        'show_in_rest' => true, // This shows the taxonomy in Gutemberg
+        'show_in_rest' => true, // Affichage de la taxonomie dans Gutemberg
         'rewrite' => array( 'slug' => 'cats' ),
         );
-    register_taxonomy( 'cats', 'photos', $args ); // Add the new taxonomy to the newly created "photos" CTP
+    register_taxonomy( 'cats', 'photos', $args ); // Ajout de la nouvelle taxonomie au nouveau CPT "Photo"
 
     // Déclaration de la taxonomie "Format"
     $labels = array(
@@ -108,12 +107,12 @@ function nathaliemota_register_post_types() {
         'show_admin_column' => true,
         'show_in_nav_menus' => true,
         'show_tagcloud' => true,
-        'show_in_rest' => true, // This shows the taxonomy in Gutemberg
+        'show_in_rest' => true, // Affichage de la taxonomie dans Gutemberg
         'rewrite' => array( 'slug' => 'formats' ),
         );
-    register_taxonomy( 'formats', 'photos', $args ); // Add the new taxonomy to the newly created "photos" CTP
+    register_taxonomy( 'formats', 'photos', $args ); // Ajout de la nouvelle taxonomie au nouveau CPT "Photo"
 }
-add_action( 'init', 'nathaliemota_register_post_types' ); // Le hook init lance la fonction
+add_action( 'init', 'nathaliemota_register_post_types' ); // "Init" est un hook qui lance la fonction
 
 
 
@@ -129,7 +128,6 @@ function menuSelectTerms($taxo_slug) {
         echo '<option>--------------------------</option>';
         foreach ( $terms as $term ) {
             echo '<option value=' . $term->slug .'>' . $term->name . '</option>';
-            //echo '<option>' . $term->name . '</option>';
         }
     }
 }

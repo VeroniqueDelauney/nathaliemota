@@ -49,4 +49,5 @@
 
 		</div>		
 
-	</header><!-- #masthead -->
+	</header>
+	<!-- #masthead -->

@@ -15,7 +15,7 @@
 	<footer class="site-footer">
             <div>
                   <!-- Nouvelle zone de menu -->
-                  <?php wp_nav_menu( array( 'theme_location' => 'footer-menu', 'container_class' => 'footer' ) ); ?>
+                  <?php wp_nav_menu( array( 'theme_location' => 'footer-menu', 'container_class' => 'footer' ) ); ?>                  
             </div>
 	</footer>
 
@@ -24,7 +24,7 @@
 
 </body>
 
-<!-- Appel de la modal -->
+<!-- Appel du modal du formulaire de contact -->
 <?php get_template_part( 'templates/modal' ); ?>
 
 </html>

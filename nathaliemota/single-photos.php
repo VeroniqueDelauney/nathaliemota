@@ -6,7 +6,6 @@
     $ID = get_the_ID();
 ?>
 
-
 <div class="post">
     <div class="top">
         <!-- Col 1 -->
@@ -19,14 +18,14 @@
                 Catégorie : 
                 <?php 
                 $terms = get_terms_of_posts(get_the_ID(), 'cats');
-                echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
+                echo implode(", ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
                 ?>
             </p>
             <p>
                 Format : 
                 <?php 
                 $terms = get_terms_of_posts(get_the_ID(), 'formats');
-                echo implode(" , ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
+                echo implode(", ", $terms); // 'Implode' retourne une chaine de caractères séparés par des virgules
                 ?>
             </p>
             <p>
@@ -39,7 +38,7 @@
 
         <!-- Col 2 -->
         <div class="col">
-            <!-- Affichage de l'image avec taille optimisée par Smush -->
+            <!-- Affichage de l'image avec taille optimisée -->
             <img src="<?php echo get_field('picture')['sizes']['large']; ?>" alt="<?php the_title(); ?>">
         </div>
     </div>
@@ -61,7 +60,7 @@
                     $previous_post = get_previous_post();
                     $next_post = get_next_post();
 
-                    // Affichage de l'image avec taille optimisée par Smush
+                    // Affichage de l'image avec taille optimisée
                     if($previous_post) {
                         echo '<div class="prev"><img src="' . get_field("picture", $previous_post->ID)['sizes']['thumbnail'] .'" alt="Image précédente"></div>';
                     }
@@ -73,7 +72,7 @@
                 </div>
                 <div class="navigationArrows">
                     <div>
-                        <!-- Previous link -->
+                        <!-- Lien photo précédente -->
                         <?php 
                             if (!empty($previous_post)) {
                                 echo '<a href="' . get_permalink($previous_post) . '" title="Voir la photo précédente" class="prev_arrow"><-</a>';
@@ -81,7 +80,7 @@
                         ?>
                     </div>
                     <div>
-                        <!-- Next link -->
+                        <!-- Lien photo suivante -->
                         <?php
                         if (!empty($next_post)) { 
                             echo '<a href="' . get_permalink($next_post) . '" title="Voir la photo suivante" class="next_arrow">-></a>';
@@ -100,7 +99,7 @@
 // On récupère le slug du terme de la taxonomie "cats"
 $terms = get_the_terms( $post->ID, 'cats' );
 if ( !empty( $terms ) ){
-    // get the first term
+    // Obtenir le premier term
     $term = array_shift( $terms );
     $slug = $term->slug;
 }
@@ -120,8 +119,7 @@ if ( !empty( $terms ) ){
     );
     $my_query = new WP_Query( $args );
 
-
-    // Show section title if there are some results
+    // On affiche la section si elle n'est pas vide
     if( $my_query->have_posts())
     {
         // Vous aimerez aussi
@@ -132,13 +130,12 @@ if ( !empty( $terms ) ){
 
         while( $my_query->have_posts() ) : $my_query->the_post();
 
-        // On appelle le template bloc_photo.php qui retourne une photo mise en page
+        // On appelle le template photo_block.php qui retourne une photo mise en page
         include('templates/photo_block.php');
-
         
         endwhile;
 
-        // Réinitialisation de la requête principale (important)
+        // Réinitialisation de la requête principale
         wp_reset_postdata();
 
         echo "</div>";
@@ -168,6 +165,3 @@ endif;
 </div>
 
 <?php get_footer(); ?>
-
-
-

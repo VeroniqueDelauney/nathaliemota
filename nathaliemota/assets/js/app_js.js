@@ -1,8 +1,3 @@
-/**
- * @property {HTMLElement} element
- * @property {string[]} images Chemins des images à afficher dans la lightbox
- * @property {string} url Image actuellement affichée
- */
 
 if (typeof $ === "undefined") {
 	var $ = jQuery;
@@ -25,7 +20,6 @@ window.onload = function(){
         allPhotos = Array.from(
             domPhotos
         );
-        //let inputs = document.querySelectorAll(".yes-no-toggle input");
         console.log(domPhotos);  
         domPhotos.forEach((domPhoto) => {
             domPhoto.querySelector(".zoom").addEventListener("click", (event) => {     
@@ -36,7 +30,7 @@ window.onload = function(){
     listenPhotosClick();
     
   
-
+    // Ouverture de la lightbox
     function openLightbox(element) {
 
         // Au lancement de la fonction, on rend la lightbox visible
@@ -48,17 +42,18 @@ window.onload = function(){
         const category = element.querySelector(".linkPhoto").getAttribute("data-category");
         const reference = element.querySelector(".linkPhoto").getAttribute("data-reference");
 
-        // Mettre à jour les éléments de la Lightbox avec les valeurs récupérées
+        // Mettre à jour les éléments de la lightbox avec les valeurs récupérées
         document.querySelector(".jpeg").src = imageUrl;
         document.querySelector(".jpeg").style.opacity = "1";
         document.querySelector(".col1").textContent = reference.toUpperCase();
         document.querySelector(".col2").textContent = category.toUpperCase();
-        // Récupérer l'index de de la photo sélectionnée en ce moment
+
+        // Récupérer l'index de de la photo sélectionnée
         currentIndex = allPhotos.indexOf(element);
     }
   
     function showPrevImage() {
-        // On décrémente l'image en cours
+        // Décrémenter l'image en cours
         currentIndex--;
         // Revenir à la dernière photo quand on est en dessous de 0
         if (currentIndex < 0) {
@@ -66,12 +61,12 @@ window.onload = function(){
         }
         // Récupérer le conteneur de l'image précédente
         const prevImageContainer = allPhotos[currentIndex];
-        // On appelle la lightbox avec l'image précédente
+        // Appeler la lightbox avec l'image précédente
         openLightbox(prevImageContainer);
     }
   
     function showNextImage() {
-        // On incrémente l'image en cours
+        // Incrémenter l'image en cours
         currentIndex++;
         // Revenir à la première image quand on est sur la dernière
         if (currentIndex >= allPhotos.length) {
@@ -79,11 +74,11 @@ window.onload = function(){
         }
         // Récupérer le conteneur de l'image suivante
         const nextImageContainer = allPhotos[currentIndex];
-        // On appelle la lightbox avec l'image suivante
+        // Appeler la lightbox avec l'image suivante
         openLightbox(nextImageContainer);
     }
   
-    // Appel des fonctions "showNextImage" et "showPrevImage" quand on clique sur "Précédente" et "Suivante"
+    // Appeler les fonctions "showNextImage" et "showPrevImage" quand on clique sur "Précédente" et "Suivante"
     if(document.querySelector(".lightbox .lightbox_prev")) {
         document.querySelector(".lightbox .lightbox_prev").addEventListener("click", showPrevImage);
         document.querySelector(".jpeg").style.opacity = "0";
@@ -106,7 +101,7 @@ window.onload = function(){
 
 
 
-    // Pre-fill form with reference number
+    // Préremplir le modal de contact avec la référence de la photo
     var modal = document.getElementById("contactModal");
     let btns = document.querySelectorAll(".contact-btn");
     let btnRef = document.querySelector(".reference");
@@ -114,8 +109,7 @@ window.onload = function(){
         btn.addEventListener("click", function() {
             modal.classList.add("show");
             if(document.querySelector(".reference")) {
-                const photo_ref = btnRef.getAttribute("data-ref").toUpperCase();
-                
+                const photo_ref = btnRef.getAttribute("data-ref").toUpperCase();                
                 document.getElementById("wpforms-49-field_3").setAttribute('value', photo_ref);
                 document.getElementById("wpforms-49-field_3").innerHTML = "Value = " + "'" + document.getElementById("wpforms-49-field_3").value + "'";
             }
@@ -123,10 +117,7 @@ window.onload = function(){
     });
 
 
-
-
-
-    // When the user clicks anywhere outside of the modal, close it
+    // Fermer le modal contact quand le visiteur clique ailleurs
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.classList.remove("show");
@@ -138,7 +129,7 @@ window.onload = function(){
 
 
 
-    // Show/hide image on mouseover/mouseleave on visionneuse
+    // Afficher/cacher l'image au mouseover/mouseleave sur la visionneuse
     function showMiniature(selecteur, miniatureDiv, eventToListen, opacityValue) {
 		var arrow = document.querySelector(selecteur);
 		if(arrow) {
@@ -155,7 +146,7 @@ window.onload = function(){
    
 
     
-    // Mobile show/hide hamburger menu
+    // Afficher/cacher le bouton hamburger du mobile
     function hamburger() {
 		var hamburgerIcon = document.querySelector(".hamburger-icon");
         var hamburgerIconClose = document.querySelector(".hamburger-icon-close");
@@ -180,13 +171,9 @@ window.onload = function(){
 		};
 	}
 	hamburger();
-  
 
 
-
-
-
-    // Mobile menu
+    // Afficher/Cacher le contenu du menu sur mobile
     function toggleMenu() {
         const btn = document.querySelector(".hamburger-icon");
         const topMenu = document.getElementById("topMenu");
@@ -195,7 +182,7 @@ window.onload = function(){
             topMenu.classList.add("show");
             header.style.display = "block";
 
-            // Close menu if Contact is clicked on mobile
+            // On ferme le menu si on est sur un mobile
             if (window.innerWidth <= 480) {       
                 var modal = document.getElementById("contactModal");
                 var btn = document.getElementById("menu-item-69");
@@ -216,18 +203,17 @@ window.onload = function(){
 
 
 
-    // Load more pictures 
+    // Charger plus de photos
     function search_picture(append_or_replace) {
 
         current_category = document.querySelector("select[name='categories']").value;
         current_format = document.querySelector("select[name='formats']").value;
-        current_sort = document.querySelector("select[name='tri']").value;  
-        
+        current_sort = document.querySelector("select[name='tri']").value;          
 
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: theme_data.ajaxurl, // Défini sur functions.php -- C'est le lien vers le fichier php
+            url: theme_data.ajaxurl, // Lien vers le fichier php, défini sur functions.php
             data: {
                 action: "nathaliemota",
                 function: "search_picture",
@@ -235,15 +221,15 @@ window.onload = function(){
             },
             beforeSend : function ( xhr ) {               
             },
-            success: function (retour_json) {  // Gère ce qui est renvoyé par le PHP         
+            success: function (retour_json) {  // Gestion de l'information renvoyée par le PHP       
                 if(currentPage == 1) {
-                    $('#picturesContainer').html(retour_json.html_content); // On écrase tout
+                    $('#picturesContainer').html(retour_json.html_content); // Remplacement du contenu
                 }
                 else
                 {
-                    $('#picturesContainer').append(retour_json.html_content); // On ajoute à la suite de l'existant
+                    $('#picturesContainer').append(retour_json.html_content); // Ajout du nouveau contenu à la suite de l'existant
                 }
-                // Gestion du bouton loadmore
+                // Gestion du bouton "Charger plus"
                 if(retour_json.has_more_pictures == 1) {
                     $('#LoadMore').show();
                 }
@@ -258,7 +244,7 @@ window.onload = function(){
             },
             complete: function (retour_json) {                
                 setTimeout((e) => {
-                    listenPhotosClick(); // Appelle la fonction d'ouverture de la lightbox sur le fichier app_js.js
+                    listenPhotosClick(); // Appel de la fonction d'ouverture de la lightbox sur le fichier app_js.js
                 }, 200);
             }
         });
@@ -266,7 +252,7 @@ window.onload = function(){
 
 
 
-    var btnLoadMorePhotos = document.getElementById("load-more-photos"); // On vérifie si le bouton existe
+    var btnLoadMorePhotos = document.getElementById("load-more-photos"); // Vérifie si le bouton "Charger plus" existe
     if(btnLoadMorePhotos) {
         btnLoadMorePhotos.addEventListener('click', function()
         {       
